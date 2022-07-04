@@ -1,8 +1,11 @@
 <?php
-Use App\Models\Product;
+
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +23,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 
+//Rutas no protegidas por middleware
+Route::post('register', [UserController::class,'register']);
+Route::post('login', [UserController::class,'authenticate']);
 Route::get('products' , [ProductController::class,'index']);
-Route::get('products/{product}' , [ProductController::class,'show']);
-Route::post('products' , [ProductController::class,'store']);
-Route::put('products/{product}' , [ProductController::class,'update']);
-Route::delete('products/{product}' , [ProductController::class,'delete']);
+
+//Rutas protegidas por middleware
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('user', [UserController::class,'getAuthenticatedUser']);
+    Route::get('products/{product}' , [ProductController::class,'show']);
+    Route::post('products' , [ProductController::class,'store']);
+    Route::put('products/{product}' , [ProductController::class,'update']);
+    Route::delete('products/{product}' , [ProductController::class,'delete']);
+});
