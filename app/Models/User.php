@@ -24,6 +24,17 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    //Jerarquía de roles
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_VENDEDOR = 'ROLE_VENDEDOR';
+    const ROLE_CLIENT = 'ROLE_CLIENT';
+
+    private const ROLES_HIERARCHY = [
+        self::ROLE_ADMIN => [self::ROLE_VENDEDOR],
+        self::ROLE_VENDEDOR => [self::ROLE_CLIENT],
+        self::ROLE_CLIENT => []
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -51,5 +62,27 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    //Verificar rol
+    public function isGranted($role)
+    {
+        if ($role === $this->role) {
+            return true;
+        }
+            return self::isRoleInHierarchy($role, self::ROLES_HIERARCHY[$this->role]);
+    }
+    //Verificar que el rol esté en la jerarquía
+    private static function isRoleInHierarchy($role, $role_hierarchy)
+    {
+        if (in_array($role, $role_hierarchy)) {
+            return true;
+        }
+        foreach ($role_hierarchy as $role_included) {
+            if(self::isRoleInHierarchy($role,self::ROLES_HIERARCHY[$role_included])){
+                return true;
+            }
+        }
+                return false;
     }
 }
