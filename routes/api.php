@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Rutas no protegidas por middleware
 Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'authenticate']);
+Route::post('logout', [UserController::class,'logout']);
 
 
 //Rutas protegidas por middleware
@@ -40,4 +42,10 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('users' , [UserController::class,'showU']);
     Route::put('users/{user}' , [UserController::class,'updateU']);
     Route::delete('users/{user}' , [UserController::class,'deleteU']);
+    //Rutas de Roles
+    Route::get('roles' , [RoleController::class,'index']);
+    Route::get('roles/{role}' , [RoleController::class,'show']);
+    Route::post('roles' , [RoleController::class,'store']);
+    Route::put('roles/{role}' , [RoleController::class,'update']);
+    Route::delete('roles/{role}' , [RoleController::class,'delete']);
 });

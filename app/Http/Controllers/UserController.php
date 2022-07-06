@@ -28,8 +28,6 @@ class UserController extends Controller
     public function register(Request $request)
     {
 
-        $this->authorize('create', User::class);
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -99,6 +97,13 @@ class UserController extends Controller
             return response()->json(compact('user'));
     }
 
+    public function logout(){
 
+        auth() -> logout();
+        /*
+        JWTAuth::getToken();
+        JWTAuth::invalidate($forever);
+        */
+    }
 
 }
