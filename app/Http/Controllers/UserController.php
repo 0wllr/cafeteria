@@ -27,6 +27,9 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+
+        $this->authorize('create', User::class);
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -44,10 +47,44 @@ class UserController extends Controller
 
         $token = JWTAuth::fromUser($user);
         return response()->json(compact('user','token'),201);
+
     }
 
-    public function getAuthenticatedUser()
+    public function updateU(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
+            $validatedData = $request->validate([
+                'name' => 'string|max:255',
+                'email' => 'string|email|max:255|unique:users',
+                'password' => 'string|min:6|confirmed',
+                ]);
+
+            $user->update($validatedData);
+            return response()->json($user, 200);
+    }
+
+    public function deleteU(Request $request, User $user)
+    {
+        $this->authorize('delete', $user);
+
+        $user->delete();
+        return response()->json(null, 204);
+    }
+
+    public function showU()
+    {
+        $this->authorize('viewAny', User::class);
+        return response()->json(User::all());
+
+    }
+
+
+    public function getAuthenticatedUser(User $user)
+    {
+
+        $this->authorize('view', $user);
+
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
@@ -61,4 +98,7 @@ class UserController extends Controller
         }
             return response()->json(compact('user'));
     }
+
+
+
 }
