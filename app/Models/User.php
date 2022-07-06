@@ -21,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'password'
     ];
 
     //Jerarquía de roles
@@ -65,7 +65,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     //Verificar rol
-    public function isGranted($role)
+    public static function isGranted($role)
     {
         if ($role === $this->role) {
             return true;
@@ -85,4 +85,13 @@ class User extends Authenticatable implements JWTSubject
         }
                 return false;
     }
+    /*
+    public function getRole($role)
+    {
+        if ($role === $this->role) {
+            return true;
+        }
+
+    }
+    */
 }
