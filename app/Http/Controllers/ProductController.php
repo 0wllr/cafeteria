@@ -9,28 +9,48 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return Product::all();
+        $this->authorize('viewAny', Product::class);
+        return response()->json(Product::all());
     }
 
     public function show(Product $product)
     {
+        $this->authorize('view', $product);
         return $product;
     }
 
     public function store(Request $request)
     {
-        $product = Product::create($request->all());
+        $this->authorize('create', Product::class);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:products|max:255',
+            'value' => 'required|integer',
+            'stock' => 'required|integer',
+            ]);
+
+        $product = Product::create($validatedData);
         return response()->json($product, 201);
     }
 
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+        $this->authorize('update', $product);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:products|max:255',
+            'value' => 'required|integer',
+            'stock' => 'required|integer',
+            ]);
+
+        $product->update($validatedData);
         return response()->json($product, 200);
     }
 
     public function delete(Request $request, Product $product)
     {
+        $this->authorize('delete', $product);
+
         $product->delete();
         return response()->json(null, 204);
     }

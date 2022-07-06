@@ -26,10 +26,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Rutas no protegidas por middleware
 Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'authenticate']);
-Route::get('products' , [ProductController::class,'index']);
+
 
 //Rutas protegidas por middleware
 Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('products' , [ProductController::class,'index']);
     Route::get('user', [UserController::class,'getAuthenticatedUser']);
     Route::get('products/{product}' , [ProductController::class,'show']);
     Route::post('products' , [ProductController::class,'store']);
