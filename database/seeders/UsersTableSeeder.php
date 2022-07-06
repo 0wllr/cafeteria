@@ -25,30 +25,35 @@ class UsersTableSeeder extends Seeder
             'name' => 'Administrador',
             'email' => 'admin@prueba.com',
             'password' => $password,
+            'role' => 'ROLE_ADMIN'
             ]);
 
             User::create([
             'name' => 'Vendedor',
             'email' => 'vendedor@prueba.com',
             'password' => $password,
+            'role' => 'ROLE_VENDEDOR'
             ]);
 
             User::create([
             'name' => 'Cliente',
             'email' => 'cliente@prueba.com',
             'password' => $password,
+            'role' => 'ROLE_CLIENT'
             ]);
 
             User::create([
             'name' => 'Cliente2',
             'email' => 'cliente2@prueba.com',
             'password' => $password,
+            'role' => 'ROLE_CLIENT'
             ]);
 
             User::create([
             'name' => 'Cliente3',
             'email' => 'cliente3@prueba.com',
             'password' => $password,
+            'role' => 'ROLE_CLIENT'
             ]);
     }
 }
