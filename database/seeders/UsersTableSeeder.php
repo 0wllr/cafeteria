@@ -27,13 +27,28 @@ class UsersTableSeeder extends Seeder
             'password' => $password,
             ]);
 
-
-            for ($i = 0; $i < 10; $i++) {
             User::create([
-            'name' => $faker->name,
-            'email' => $faker->email,
+            'name' => 'Vendedor',
+            'email' => 'vendedor@prueba.com',
             'password' => $password,
             ]);
-        }
+
+            User::create([
+            'name' => 'Cliente',
+            'email' => 'cliente@prueba.com',
+            'password' => $password,
+            ]);
+
+            User::create([
+            'name' => 'Cliente2',
+            'email' => 'cliente2@prueba.com',
+            'password' => $password,
+            ]);
+
+            User::create([
+            'name' => 'Cliente3',
+            'email' => 'cliente3@prueba.com',
+            'password' => $password,
+            ]);
     }
 }
