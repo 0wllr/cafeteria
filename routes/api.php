@@ -17,11 +17,7 @@ use App\Http\Controllers\RoleController;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+*
 */
 
 //Rutas no protegidas por middleware
@@ -42,10 +38,14 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('users' , [UserController::class,'showU']);
     Route::put('users/{user}' , [UserController::class,'updateU']);
     Route::delete('users/{user}' , [UserController::class,'deleteU']);
+    Route::post('logout', [UserController::class,'logout']);
     //Rutas de Roles
     Route::get('roles' , [RoleController::class,'index']);
     Route::get('roles/{role}' , [RoleController::class,'show']);
     Route::post('roles' , [RoleController::class,'store']);
     Route::put('roles/{role}' , [RoleController::class,'update']);
     Route::delete('roles/{role}' , [RoleController::class,'delete']);
+
 });
+
+

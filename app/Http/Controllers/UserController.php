@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -99,11 +101,10 @@ class UserController extends Controller
 
     public function logout(){
 
-        auth() -> logout();
-        /*
+        $forever = true;
         JWTAuth::getToken();
         JWTAuth::invalidate($forever);
-        */
+
     }
 
 }
