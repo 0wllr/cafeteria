@@ -38,9 +38,9 @@ class ProductController extends Controller
         $this->authorize('update', $product);
 
         $validatedData = $request->validate([
-            'name' => 'required|string|unique:products|max:255',
-            'value' => 'required|integer',
-            'stock' => 'required|integer',
+            'name' => 'string|unique:products|max:255',
+            'value' => 'integer',
+            'stock' => 'integer',
             ]);
 
         $product->update($validatedData);
