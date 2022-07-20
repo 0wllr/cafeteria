@@ -75,15 +75,17 @@ class User extends Authenticatable implements JWTSubject
     //Verificar que el rol esté en la jerarquía
     private static function isRoleInHierarchy($role, $role_hierarchy)
     {
+
         if (in_array($role, $role_hierarchy)) {
             return true;
         }
+
         foreach ($role_hierarchy as $role_included) {
             if(self::isRoleInHierarchy($role,self::ROLES_HIERARCHY[$role_included])){
                 return true;
             }
         }
-                return false;
+        return false;
     }
 
 }

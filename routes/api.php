@@ -27,7 +27,7 @@ Route::post('logout', [UserController::class,'logout']);
 
 
 //Rutas protegidas por middleware
-Route::group(['middleware' => ['jwt.verify']], function() {
+Route::group(['middleware' => ['jwt.verify']], function ($router) {
     Route::get('products' , [ProductController::class,'index']);
     Route::get('products/{product}' , [ProductController::class,'show']);
     Route::post('products' , [ProductController::class,'store']);
@@ -35,10 +35,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::delete('products/{product}' , [ProductController::class,'delete']);
     //Rutas de Usuarios
     Route::get('user', [UserController::class,'getAuthenticatedUser']);
+    Route::get('users/{user}' , [UserController::class,'showId']);
     Route::get('users' , [UserController::class,'showU']);
     Route::put('users/{user}' , [UserController::class,'updateU']);
     Route::delete('users/{user}' , [UserController::class,'deleteU']);
-    Route::post('logout', [UserController::class,'logout']);
+    //Route::post('logout', [UserController::class,'logout']);
     //Rutas de Roles
     Route::get('roles' , [RoleController::class,'index']);
     Route::get('roles/{role}' , [RoleController::class,'show']);
