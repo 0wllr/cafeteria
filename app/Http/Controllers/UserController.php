@@ -57,7 +57,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'name' => 'string|max:255',
                 'email' => 'string|email|max:255|unique:users',
-                'password' => 'string|min:6|confirmed',
+                'password' => 'string|min:6',
                 ]);
 
             $user->update($validatedData);
@@ -79,6 +79,11 @@ class UserController extends Controller
 
     }
 
+    public function showId(User $user)
+    {
+        $this->authorize('view', $user);
+        return $user;
+    }
 
     public function getAuthenticatedUser(User $user)
     {
